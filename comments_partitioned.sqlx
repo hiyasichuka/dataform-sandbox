@@ -4,7 +4,7 @@ description: "cleaned comments data and partitioned by date for faster performan
 schema: "demo_optimized_staging",
 tags: ["reddit"],
 columns: {
-  comment_id: "unique id for each comment",
+   comment_id: "unique id for each comment",
   subreddit: "which reddit community the comment occurred",
   author: "which reddit user commented",
   comment_text: "the body of text for the comment",
