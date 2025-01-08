@@ -11,31 +11,15 @@ on:
 jobs:
   format-check:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./ci
 
     steps:
-    - name: Check out repository
-      uses: actions/checkout@v3
-
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: 18
-        cache: 'npm'
-
-    - name: Cache npm dependencies
-      uses: actions/cache@v3
-      with:
-        path: ~/.npm 
-        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-node-
-
-    - name: Install Dataform CLI
-      run: npm install --global @dataform/cli
-
-    - name: Format SQLX Files
-      run: dataform format
-
-    - name: Check for unformatted files
-      run: git diff --exit-code
-      continue-on-error: false # 差分があればジョブを失敗させる
+      - uses: actions/checkout@v4
+      - name: Use Node.js 22.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          cache: "npm"
+      - run: npm ci
