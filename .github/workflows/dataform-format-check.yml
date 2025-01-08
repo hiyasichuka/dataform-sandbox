@@ -1,6 +1,7 @@
 name: Dataform Format Check
 
 on:
+  workflow_dispatch:
   push:
     paths:
       - "**/*.sqlx"
