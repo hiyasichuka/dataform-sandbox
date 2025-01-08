@@ -6,9 +6,6 @@ on:
 jobs:
   format-check:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./ci
 
     steps:
       - uses: actions/checkout@v4
@@ -19,3 +16,4 @@ jobs:
           cache: "npm"
           cache-dependency-path: ./ci/package-lock.json
       - run: npm ci
+      - run: npx dataform format projectA
