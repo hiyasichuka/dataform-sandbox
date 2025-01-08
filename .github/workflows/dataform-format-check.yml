@@ -16,4 +16,5 @@ jobs:
           cache: "npm"
           cache-dependency-path: ./ci/package-lock.json
       - run: npm ci
+        working-directory: ./ci
       - run: npx dataform format projectA
