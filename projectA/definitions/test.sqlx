@@ -15,27 +15,27 @@ config {
   tags: ["daily"]
 }
 
-# standardSQL
-WITH t AS (
+  # standardSQL
+WITH
+  t AS (
   SELECT
     f.prefecture_name_kanji,
     f.prediction_date AS date,
     f.forecast_date,
-    MAX (f.forecast_date) OVER (
-      PARTITION BY f.prefecture_code,
-      f.prediction_date
-    ) AS latest_forecast_date,
+    MAX (f.forecast_date) OVER (PARTITION BY f.prefecture_code, f.prediction_date ) AS latest_forecast_date,
     j.new_confirmed,
     f.new_confirmed AS forecast_new_confirmed,
     j.new_deaths,
     f.new_deaths AS forecast_new_deaths
   FROM
     ${ref("japan_forecast")} f
-    LEFT JOIN ${ref("japan_actual")} j ON f.prediction_date = j.date
+  LEFT JOIN
+    ${ref("japan_actual")} j
+  ON
+    f.prediction_date = j.date
     AND f.prefecture_code = j.prefecture_code
   WHERE
-    f.prediction_date >= "2020-12-21"
-)
+    f.prediction_date >= "2020-12-21" )
 SELECT
   date,
   prefecture_name_kanji,
