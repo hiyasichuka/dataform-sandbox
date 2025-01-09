@@ -25,17 +25,17 @@ jobs:
       - name: Run Dataform Format
         run: npx dataform format projectA
 
-      - name: Check for modified .sqlx files
-        id: check-sqlx-modifications
+      - name: Check for changes after formatting
+        id: check-format-changes
         run: |
-          if git diff --name-only HEAD~1 HEAD | grep -q '\.sqlx$'; then
-            echo "modified=true" >> $GITHUB_OUTPUT
+          if git diff --quiet; then
+            echo "changed=false" >> $GITHUB_OUTPUT
           else
-            echo "modified=false" >> $GITHUB_OUTPUT
+            echo "changed=true" >> $GITHUB_OUTPUT
           fi
 
-      - name: Fail CI if .sqlx files are modified
-        if: steps.check-sqlx-modifications.outputs.modified == 'true'
+      - name: Fail CI if formatting changes detected
+        if: steps.check-format-changes.outputs.changed == 'true'
         run: |
-          echo "Error: .sqlx files have been modified. Please ensure no changes are made."
+          echo "Error: Formatting changes were detected. Please run 'dataform format' locally and commit the changes."
           exit 1
