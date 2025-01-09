@@ -37,5 +37,5 @@ jobs:
       - name: Fail CI if formatting changes detected
         if: steps.check-format-changes.outputs.changed == 'true'
         run: |
-          echo "Error: Formatting changes were detected. Please run 'dataform format' locally and commit the changes."
+          echo "Error: Formatting changes were detected. Please run 'dataform format' and commit the changes."
           exit 1
